@@ -1,9 +1,12 @@
+import Footer from "@/components/shared/Footer/Footer";
+import Navbar from "@/components/shared/Navbar/Navbar";
 import React from "react";
 
 const HomePage = () => {
   return (
     <div>
-      <h1>HomePage</h1>
+      <Navbar />
+      <Footer />
     </div>
   );
 };
