@@ -1,7 +1,5 @@
 import { authKey } from "@/constants/authkey";
-import setAccessToken from "@/services/actions/setAccessToken";
-import { getNewAccessToken } from "@/services/auth.services";
-import { IGenericErrorResponse, ResponseSuccessType } from "@/types";
+import { TErrorResponse, TSuccessResponse } from "@/types";
 import { getFromLocalStorage } from "@/utils/local-storage";
 import axios from "axios";
 
@@ -10,7 +8,6 @@ instance.defaults.headers.post["Content-Type"] = "application/json";
 instance.defaults.headers["Accept"] = "application/json";
 instance.defaults.timeout = 6000;
 
-// Add a request interceptor
 instance.interceptors.request.use(
   function (config) {
     // Do something before request is sent
@@ -32,7 +29,7 @@ instance.interceptors.response.use(
   function (response) {
     // Any status code that lie within the range of 2xx cause this function to trigger
     // Do something with response data
-    const responseObject: ResponseSuccessType = {
+    const responseObject: TSuccessResponse = {
       data: response?.data?.data,
       meta: response?.data?.meta,
     };
@@ -41,7 +38,12 @@ instance.interceptors.response.use(
   async function (error) {
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
-    // console.log("error", error);
+    const responseObject: TErrorResponse = {
+      success: false,
+      statusCode: error?.response?.status || 500,
+      message: error?.response?.data?.message,
+      errorDetails: error?.response?.data?.errorDetails,
+    };
   }
 );
 
