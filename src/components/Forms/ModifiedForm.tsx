@@ -12,13 +12,15 @@ type TFormProps = {
 
 const ModifiedForm = ({ children, onSubmit, resolver, defaultValues }: TFormProps) => {
   const formConfig: TFormConfig = {};
+
   if (resolver) {
-    formConfig.resolver = resolver;
+    formConfig["resolver"] = resolver;
   }
   if (defaultValues) {
     formConfig.defaultValues = defaultValues;
   }
   const methods = useForm(formConfig);
+
   const { handleSubmit } = methods;
   const submit: SubmitHandler<FieldValues> = (data) => {
     onSubmit(data);
