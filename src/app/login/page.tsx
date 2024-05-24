@@ -8,6 +8,10 @@ import AdbIcon from "@mui/icons-material/Adb";
 
 import React from "react";
 import { z } from "zod";
+import { useRouter } from "next/navigation";
+import { FieldValues } from "react-hook-form";
+import { userLogin } from "@/services/actions/userLogin";
+import { toast } from "sonner";
 const loginValidationSchema = z.object({
   email: z
     .string({
@@ -18,7 +22,21 @@ const loginValidationSchema = z.object({
 });
 
 const LoginPage = () => {
-  const handleLogin = (data: any) => {};
+  const router = useRouter();
+
+  const handleLogin = async (values: FieldValues) => {
+    try {
+      const res = await userLogin(values);
+
+      if (res.data?.accessToken) {
+        toast.success(res?.message || "Login Successful");
+        router.push("/");
+      } else {
+      }
+    } catch (error: any) {
+      console.error(error.message);
+    }
+  };
 
   return (
     <Container>
