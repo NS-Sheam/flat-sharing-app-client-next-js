@@ -20,7 +20,7 @@ const FlatCard = ({ flat }: { flat: TFlat }) => {
       }}
     >
       <Image
-        src={asset.images.flat1}
+        src={flat.images.length > 0 ? flat.images[0] : asset.images.flat2}
         width={345}
         height={230}
         alt="flat-image"

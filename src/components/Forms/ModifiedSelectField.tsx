@@ -11,9 +11,19 @@ interface ITextField {
   fullWidth?: boolean;
   sx?: SxProps;
   items: string[];
+  multiple?: boolean;
 }
 
-const ModifiedSelectField = ({ items, name, label, size = "small", required, fullWidth = true, sx }: ITextField) => {
+const ModifiedSelectField = ({
+  items,
+  name,
+  label,
+  size = "small",
+  required,
+  fullWidth = true,
+  sx,
+  multiple = false,
+}: ITextField) => {
   const { control, formState } = useFormContext();
   const isError = formState.errors[name] !== undefined;
 
@@ -34,6 +44,13 @@ const ModifiedSelectField = ({ items, name, label, size = "small", required, ful
           fullWidth={fullWidth}
           error={isError}
           helperText={isError ? (formState.errors[name]?.message as string) : ""}
+          SelectProps={{
+            multiple: multiple,
+          }}
+          value={multiple ? field.value || [] : field.value}
+          onChange={(event) => {
+            field.onChange(event.target.value);
+          }}
         >
           {items.map((name) => (
             <MenuItem

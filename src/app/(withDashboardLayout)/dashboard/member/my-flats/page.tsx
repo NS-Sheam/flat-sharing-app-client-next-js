@@ -2,28 +2,22 @@
 
 import { CircularProgress, Typography, Grid, Container } from "@mui/material";
 import { isLoggedIn } from "@/services/auth.services";
-import { useGetAllFlatsQuery } from "@/redux/api/flatApi";
 import { useRouter } from "next/navigation";
 import FlatCard from "@/components/UI/FlatCard";
-const AllFlatPage = () => {
-  const searchParams = new URLSearchParams(location.search);
-  const searchTerm = searchParams.get("searchTerm") || "";
-  const rent = searchParams.get("rent") || "";
-  const bedrooms = searchParams.get("bedrooms") || "";
-  const params = {
-    searchTerm,
-    rent,
-    bedrooms,
-  };
 
-  const { data: fData, isLoading } = useGetAllFlatsQuery(params);
+import { useGetMyProfileQuery } from "@/redux/api/userApi";
+import { TFlat } from "@/types";
+const MyFlats = () => {
+  const { data: myProfile, isLoading, isFetching } = useGetMyProfileQuery(undefined);
+  const fData = myProfile?.member?.flat;
+
   const router = useRouter();
 
   if (!isLoggedIn()) {
     return router.push("/login");
   }
 
-  if (isLoading) {
+  if (isLoading || isFetching) {
     return (
       <div style={{ display: "flex", justifyContent: "center" }}>
         <CircularProgress />
@@ -48,7 +42,7 @@ const AllFlatPage = () => {
         container
         spacing={2}
       >
-        {fData?.flats.map((flat) => (
+        {fData?.map((flat: TFlat) => (
           <Grid
             item
             xs={12}
@@ -67,4 +61,4 @@ const AllFlatPage = () => {
   );
 };
 
-export default AllFlatPage;
+export default MyFlats;

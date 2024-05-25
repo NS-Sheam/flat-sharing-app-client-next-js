@@ -4,11 +4,10 @@ import { IMeta, TFlat } from "@/types";
 
 const flatApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
-    createFlat: build.mutation({
+    addFlat: build.mutation({
       query: (data) => ({
         url: "/flats",
         method: "POST",
-        contentType: "multipart/form-data",
         data,
       }),
       invalidatesTags: [tagTypes.flat],
@@ -55,7 +54,7 @@ const flatApi = baseApi.injectEndpoints({
 });
 
 export const {
-  useCreateFlatMutation,
+  useAddFlatMutation,
   useGetAllFlatsQuery,
   useDeleteFlatMutation,
   useGetFlatQuery,

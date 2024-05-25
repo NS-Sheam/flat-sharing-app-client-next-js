@@ -8,7 +8,6 @@ import { ReactNode } from "react";
 
 const DashboardLayout = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
-  console.log("DashboardLayout", isLoggedIn());
 
   if (!isLoggedIn()) {
     return router.push("/login");
