@@ -1,11 +1,11 @@
 import Link from "next/link";
 import { ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 
-import { DrawerItem } from "@/types";
+import { TDrawerItem } from "@/types";
 import { usePathname } from "next/navigation";
 
 type ISidebarItemProps = {
-  item: DrawerItem;
+  item: TDrawerItem;
 };
 
 const SidebarItem = ({ item }: ISidebarItemProps) => {

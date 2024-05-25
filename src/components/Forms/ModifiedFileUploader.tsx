@@ -10,6 +10,7 @@ type TModifiedFileUploaderProps = {
   type?: string;
   label?: string;
   sx?: SxProps;
+  fullWidth?: boolean;
 };
 
 export default function ModifiedFileUploader({ name, type, label, sx }: TModifiedFileUploaderProps) {
@@ -21,6 +22,7 @@ export default function ModifiedFileUploader({ name, type, label, sx }: TModifie
       control={control}
       render={({ field: { onChange, ...field } }) => (
         <Button
+          fullWidth
           component="label"
           variant="contained"
           startIcon={<CloudUploadIcon />}

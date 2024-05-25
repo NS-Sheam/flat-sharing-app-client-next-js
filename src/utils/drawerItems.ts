@@ -14,7 +14,7 @@ export const drawerItems = (role: TUserRole): TDrawerItem[] => {
   const defaultMenus = [
     {
       title: "Profile",
-      path: `${role}/profile`,
+      path: `/profile`,
       icon: PersonIcon,
     },
     {

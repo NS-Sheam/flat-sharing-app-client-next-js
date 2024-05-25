@@ -1,10 +1,10 @@
 "use client";
 import React from "react";
-import { Box, Card, CardContent, Typography, Grid, CircularProgress, Button } from "@mui/material";
-import Image from "next/image";
+import { Box, Typography, Grid, CircularProgress, Button } from "@mui/material";
+
 import { useGetAllFlatsQuery } from "@/redux/api/flatApi";
 import { useRouter } from "next/navigation";
-import asset from "@/assets";
+
 import Link from "next/link";
 import FlatCard from "../../FlatCard";
 
