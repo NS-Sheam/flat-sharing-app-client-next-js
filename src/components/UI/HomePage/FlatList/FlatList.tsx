@@ -58,6 +58,9 @@ const FlatList = () => {
             sm={6}
             md={4}
             key={flat.id}
+            sx={{
+              overflow: "hidden",
+            }}
           >
             <FlatCard flat={flat} />
           </Grid>

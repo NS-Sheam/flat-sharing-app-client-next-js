@@ -33,7 +33,7 @@ const flatApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [tagTypes.flat],
     }),
-    //get single flat
+
     getFlat: build.query({
       query: (id: string | string[] | undefined) => ({
         url: `/flats/${id}`,
@@ -41,7 +41,7 @@ const flatApi = baseApi.injectEndpoints({
       }),
       providesTags: [tagTypes.flat],
     }),
-    // update a flat
+
     updateFlat: build.mutation({
       query: (data) => ({
         url: `/flats/${data.id}`,

@@ -7,8 +7,12 @@ import { useParams } from "next/navigation";
 import Image from "next/image";
 import assets from "@/assets";
 import { isLoggedIn } from "@/services/auth.services";
+import { useGetMyProfileQuery } from "@/redux/api/userApi";
 
 const SingleFlatPage = () => {
+  const { data: myProfileData } = useGetMyProfileQuery(undefined);
+  console.log(myProfileData);
+
   const router = useRouter();
   const { id } = useParams();
   const { data: flatData, isLoading } = useGetFlatQuery(id);
@@ -108,6 +112,16 @@ const SingleFlatPage = () => {
               backgroundColor: "#fff",
             }}
           >
+            {flatData?.memberId === myProfileData?.member?.id && (
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => router.push(`/flats/${id}/edit`)}
+                sx={{ py: 1.5, fontSize: "1rem", fontWeight: "bold" }}
+              >
+                Edit Flat
+              </Button>
+            )}
             <Button
               variant="contained"
               color="primary"

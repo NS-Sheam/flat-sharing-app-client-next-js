@@ -11,6 +11,8 @@ import { toast } from "sonner";
 import { registerUser } from "@/services/actions/userRegister";
 import { userLogin } from "@/services/actions/userLogin";
 import { useRouter } from "next/navigation";
+import { uploadImageToImgBB } from "@/services/actions/imageUploadActions";
+import ModifiedFileUploader from "@/components/Forms/ModifiedFileUploader";
 
 const registerValidationSchema = z
   .object({
@@ -33,6 +35,7 @@ const registerValidationSchema = z
     address: z.string().optional(),
     password: z.string().min(6, "Password must be at least 6 characters"),
     confirmPassword: z.string().min(6, "Confirm Password must be at least 6 characters"),
+    image: z.instanceof(File).optional(),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords don't match",
@@ -43,21 +46,22 @@ const RegisterPage = () => {
   const router = useRouter();
 
   const handleRegister = async (values: FieldValues) => {
-    const userData = {
-      password: values.password,
-      member: {
-        userName: values.userName,
-        name: values.name,
-        email: values.email,
-        mobileNo: values.mobileNo,
-        address: values.address,
-      },
-    };
-
     try {
+      const imageUrl = await uploadImageToImgBB(values.image);
+      const userData = {
+        password: values.password,
+        member: {
+          userName: values.userName,
+          name: values.name,
+          email: values.email,
+          mobileNo: values.mobileNo,
+          address: values.address,
+          image: imageUrl || null,
+        },
+      };
       const res = await registerUser(userData);
 
-      // console.log(res);
+      console.log(res);
       if (res?.data?.id) {
         toast.success(res?.message || "Register registered successfully");
         const result = await userLogin({
@@ -229,6 +233,23 @@ const RegisterPage = () => {
                     type="password"
                     fullWidth
                   />
+                </Grid>
+                <Grid
+                  item
+                  md={12}
+                  width="100%"
+                >
+                  <Grid
+                    item
+                    md={12}
+                    width="100%"
+                  >
+                    <ModifiedFileUploader
+                      name="image"
+                      label="Profile Picture"
+                      type="file"
+                    />
+                  </Grid>
                 </Grid>
               </Grid>
 

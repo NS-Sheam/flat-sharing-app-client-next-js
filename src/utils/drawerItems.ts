@@ -27,11 +27,6 @@ export const drawerItems = (role: TUserRole): TDrawerItem[] => {
     case USER_ROLE.ADMIN:
       roleMenus.push(
         {
-          title: "Dashboard",
-          path: `${role}`,
-          icon: DashboardIcon,
-        },
-        {
           title: "Manage Users",
           path: `${role}/manage-users`,
           icon: GroupIcon,
@@ -47,18 +42,13 @@ export const drawerItems = (role: TUserRole): TDrawerItem[] => {
     case USER_ROLE.MEMBER:
       roleMenus.push(
         {
-          title: "Dashboard",
-          path: `${role}`,
-          icon: DashboardIcon,
+          title: "My Flats",
+          path: `${role}/my-flats`,
+          icon: GroupIcon,
         },
         {
           title: "Add Flat",
           path: `${role}/add-flat`,
-          icon: GroupIcon,
-        },
-        {
-          title: "My Flats",
-          path: `${role}/my-flats`,
           icon: GroupIcon,
         },
         {

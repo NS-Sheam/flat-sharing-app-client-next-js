@@ -14,11 +14,30 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import Link from "next/link";
-
-const pages = ["Home", "About"];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+import { useGetMyProfileQuery } from "@/redux/api/userApi";
+import { USER_ROLE } from "@/constants/role";
+import { getUserInfo } from "@/services/auth.services";
 
 function Navbar() {
+  const { data: myProfile, isLoading: isMyProfileLoading } = useGetMyProfileQuery(undefined);
+  const pages = ["Home", "About"];
+  const { role } = getUserInfo();
+  const settings = [
+    {
+      name: "Dashboard",
+      path: `/dashboard/${
+        myProfile?.role.toLowerCase() === USER_ROLE.MEMBER
+          ? "member/my-flats"
+          : myProfile?.role.toLowerCase() === USER_ROLE.ADMIN
+          ? "admin/manage-users"
+          : ""
+      }`,
+    },
+    {
+      name: "Profile",
+      path: `/dashboard/${role}/profile`,
+    },
+  ];
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
@@ -36,6 +55,10 @@ function Navbar() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  if (isMyProfileLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <AppBar
@@ -169,7 +192,13 @@ function Navbar() {
               >
                 <Avatar
                   alt="Remy Sharp"
-                  src="/static/images/avatar/2.jpg"
+                  src={
+                    role === USER_ROLE.MEMBER
+                      ? myProfile?.member?.image || "/static/images/avatar/2.jpg"
+                      : role === USER_ROLE.ADMIN
+                      ? myProfile?.admin?.image || "/static/images/avatar/2.jpg"
+                      : ""
+                  }
                 />
               </IconButton>
             </Tooltip>
@@ -191,10 +220,12 @@ function Navbar() {
             >
               {settings.map((setting) => (
                 <MenuItem
-                  key={setting}
+                  key={setting.name}
                   onClick={handleCloseUserMenu}
                 >
-                  <Typography textAlign="center">{setting}</Typography>
+                  <Link href={setting.path}>
+                    <Typography textAlign="center">{setting.name}</Typography>
+                  </Link>
                 </MenuItem>
               ))}
             </Menu>

@@ -1,6 +1,8 @@
 // services/actions/imageUploadActions.js
 
 export const uploadImageToImgBB = async (file: File): Promise<string> => {
+  console.log(file);
+
   const formData = new FormData();
   formData.append("image", file);
 
