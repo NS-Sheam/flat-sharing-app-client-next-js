@@ -12,3 +12,7 @@ export const getUserInfo = () => {
     };
   }
 };
+
+export const removeUserInfo = () => {
+  localStorage.removeItem(authKey);
+};

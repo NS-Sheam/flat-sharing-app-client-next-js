@@ -107,6 +107,7 @@ const LoginPage = () => {
                 <Grid
                   item
                   md={12}
+                  width="100%"
                 >
                   <ModifiedInput
                     name="email"
@@ -118,6 +119,7 @@ const LoginPage = () => {
                 <Grid
                   item
                   md={12}
+                  width="100%"
                 >
                   <ModifiedInput
                     name="password"
