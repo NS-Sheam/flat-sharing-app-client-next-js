@@ -32,6 +32,7 @@ const LoginPage = () => {
         toast.success(res?.message || "Login Successful");
         router.push("/");
       } else {
+        toast.error(res?.message || "Login Failed");
       }
     } catch (error: any) {
       console.error(error.message);

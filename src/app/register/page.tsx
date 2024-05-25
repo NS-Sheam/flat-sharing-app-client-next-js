@@ -7,6 +7,10 @@ import Link from "next/link";
 import AdbIcon from "@mui/icons-material/Adb";
 import { FieldValues } from "react-hook-form";
 import { z } from "zod";
+import { toast } from "sonner";
+import { registerUser } from "@/services/actions/userRegister";
+import { userLogin } from "@/services/actions/userLogin";
+import { useRouter } from "next/navigation";
 
 const registerValidationSchema = z
   .object({
@@ -25,6 +29,8 @@ const registerValidationSchema = z
         required_error: "Email is required",
       })
       .email("Invalid email address"),
+    mobileNo: z.string().optional(),
+    address: z.string().optional(),
     password: z.string().min(6, "Password must be at least 6 characters"),
     confirmPassword: z.string().min(6, "Confirm Password must be at least 6 characters"),
   })
@@ -34,9 +40,39 @@ const registerValidationSchema = z
   });
 
 const RegisterPage = () => {
+  const router = useRouter();
+
   const handleRegister = async (values: FieldValues) => {
+    const userData = {
+      password: values.password,
+      member: {
+        userName: values.userName,
+        name: values.name,
+        email: values.email,
+        mobileNo: values.mobileNo,
+        address: values.address,
+      },
+    };
+
     try {
-      console.log(values);
+      const res = await registerUser(userData);
+
+      // console.log(res);
+      if (res?.data?.id) {
+        toast.success(res?.message || "Register registered successfully");
+        const result = await userLogin({
+          email: values.email,
+          password: values.password,
+        });
+
+        if (result?.data?.accessToken) {
+          router.push("/");
+        } else {
+          toast.error(res?.message || "Login failed");
+        }
+      } else {
+        console.error(res?.message || "Register failed");
+      }
     } catch (error: any) {
       console.error(error.message);
     }
@@ -209,7 +245,6 @@ const RegisterPage = () => {
                 component="p"
                 fontWeight="300"
               >
-                Don&apos;t have an account?{" "}
                 <Link
                   href="/login"
                   style={{
