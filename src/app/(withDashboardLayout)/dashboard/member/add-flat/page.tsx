@@ -53,120 +53,117 @@ const AddFlatPage = () => {
   };
 
   return (
-    <Container>
-      <Stack
+    <Container
+      sx={{
+        my: 4,
+      }}
+    >
+      <Typography
+        variant="h4"
+        sx={{ mb: 4, textAlign: "center", color: "primary.main", fontWeight: "bold" }}
+      >
+        Add a New Flat
+      </Typography>
+      <Box
         sx={{
-          my: 4,
+          boxShadow: 1,
+          borderRadius: 1,
+          p: 4,
+          textAlign: "center",
         }}
       >
-        <Box
-          sx={{
-            boxShadow: 1,
-            borderRadius: 1,
-            p: 4,
-            textAlign: "center",
-          }}
+        <ModifiedForm
+          onSubmit={handleAddFlat}
+          resolver={zodResolver(addFlatValidationSchema)}
         >
-          <Typography
-            variant="h4"
-            component="h1"
-            sx={{ mb: 4, textAlign: "center", color: "#333", fontWeight: "bold" }}
-          >
-            Add a New Flat
-          </Typography>
-          <ModifiedForm
-            onSubmit={handleAddFlat}
-            resolver={zodResolver(addFlatValidationSchema)}
+          <Grid
+            container
+            spacing={2}
+            my={1}
+            justifyContent="start"
+            alignItems="center"
           >
             <Grid
-              container
-              spacing={2}
-              my={1}
-              justifyContent="start"
-              alignItems="center"
+              item
+              xs={6}
             >
-              <Grid
-                item
-                xs={6}
-              >
-                <ModifiedInput
-                  name="location"
-                  label="Location"
-                  type="text"
-                  fullWidth
-                />
-              </Grid>
-              <Grid
-                item
-                xs={6}
-              >
-                <ModifiedInput
-                  name="description"
-                  label="Description"
-                  type="text"
-                  fullWidth
-                />
-              </Grid>
-              <Grid
-                item
-                xs={6}
-              >
-                <ModifiedInput
-                  name="rent"
-                  label="Rent"
-                  type="number"
-                  fullWidth
-                />
-              </Grid>
-              <Grid
-                item
-                xs={6}
-              >
-                <ModifiedInput
-                  name="bedrooms"
-                  label="Number of Bedrooms"
-                  type="number"
-                  fullWidth
-                />
-              </Grid>
-              <Grid
-                item
-                xs={6}
-              >
-                <ModifiedSelectField
-                  name="amenities"
-                  label="Amenities"
-                  items={["Furnished", "Parking", "Security", "Balcony", "Garden", "Swimming Pool"]}
-                  fullWidth
-                  multiple
-                />
-              </Grid>
-              <Grid
-                item
-                xs={12}
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "start",
-                }}
-              >
-                <ModifiedMultipleFileUploader
-                  name="images"
-                  label="Images"
-                />
-                <Button
-                  sx={{
-                    margin: "10px 0",
-                  }}
-                  type="submit"
-                >
-                  Add Flat
-                </Button>
-              </Grid>
+              <ModifiedInput
+                name="location"
+                label="Location"
+                type="text"
+                fullWidth
+              />
             </Grid>
-          </ModifiedForm>
-        </Box>
-      </Stack>
+            <Grid
+              item
+              xs={6}
+            >
+              <ModifiedInput
+                name="description"
+                label="Description"
+                type="text"
+                fullWidth
+              />
+            </Grid>
+            <Grid
+              item
+              xs={6}
+            >
+              <ModifiedInput
+                name="rent"
+                label="Rent"
+                type="number"
+                fullWidth
+              />
+            </Grid>
+            <Grid
+              item
+              xs={6}
+            >
+              <ModifiedInput
+                name="bedrooms"
+                label="Number of Bedrooms"
+                type="number"
+                fullWidth
+              />
+            </Grid>
+            <Grid
+              item
+              xs={6}
+            >
+              <ModifiedSelectField
+                name="amenities"
+                label="Amenities"
+                items={["Furnished", "Parking", "Security", "Balcony", "Garden", "Swimming Pool"]}
+                fullWidth
+                multiple
+              />
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "start",
+              }}
+            >
+              <ModifiedMultipleFileUploader
+                name="images"
+                label="Images"
+              />
+              <Button
+                sx={{
+                  margin: "10px 0",
+                }}
+                type="submit"
+              >
+                Add Flat
+              </Button>
+            </Grid>
+          </Grid>
+        </ModifiedForm>
+      </Box>
     </Container>
   );
 };

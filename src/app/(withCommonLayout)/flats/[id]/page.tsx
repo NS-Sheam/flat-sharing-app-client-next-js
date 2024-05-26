@@ -11,7 +11,6 @@ import { useGetMyProfileQuery } from "@/redux/api/userApi";
 
 const SingleFlatPage = () => {
   const { data: myProfileData } = useGetMyProfileQuery(undefined);
-  console.log(myProfileData);
 
   const router = useRouter();
   const { id } = useParams();
@@ -21,7 +20,7 @@ const SingleFlatPage = () => {
   }
 
   const handleRequestToShare = () => {
-    router.push(`/flat-share-request/${id}`);
+    router.push(`/flats/${id}/flat-share-request`);
   };
 
   if (isLoading) {

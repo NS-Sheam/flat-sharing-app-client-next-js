@@ -7,8 +7,8 @@ import { IMeta, TFlatRequest } from "@/types";
 const flatShareApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     addFlatShareRequest: build.mutation({
-      query: (data) => ({
-        url: "/flat-request",
+      query: ({ flatId, data }: { flatId: string; data: Partial<TFlatRequest> }) => ({
+        url: `/flat-request/${flatId}`,
         method: "POST",
         data,
       }),

@@ -10,6 +10,7 @@ type TInputProps = {
   sx?: SxProps;
   placeholder?: string;
   required?: boolean;
+  [key: string]: any;
 };
 
 const ModifiedInput = ({
@@ -21,6 +22,7 @@ const ModifiedInput = ({
   sx,
   placeholder,
   required,
+  ...props
 }: TInputProps) => {
   const { control } = useFormContext();
   return (
@@ -32,6 +34,7 @@ const ModifiedInput = ({
       }}
       render={({ field, fieldState: { error } }) => (
         <TextField
+          {...props}
           sx={{ ...sx }}
           label={label}
           {...field}

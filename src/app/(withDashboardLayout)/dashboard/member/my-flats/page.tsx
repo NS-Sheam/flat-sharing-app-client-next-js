@@ -28,13 +28,12 @@ const MyFlats = () => {
   return (
     <Container
       sx={{
-        py: 4,
+        my: 4,
       }}
     >
       <Typography
-        variant="h3"
-        component="h2"
-        sx={{ mb: 4, textAlign: "center", color: "primary.main" }}
+        variant="h4"
+        sx={{ mb: 4, textAlign: "center", color: "primary.main", fontWeight: "bold" }}
       >
         All Flat
       </Typography>

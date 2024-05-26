@@ -71,126 +71,121 @@ const ProfilePage = () => {
   };
 
   return (
-    <Container>
-      <Stack
+    <Container
+      sx={{
+        my: 4,
+      }}
+    >
+      <Typography
+        variant="h4"
+        sx={{ mb: 4, textAlign: "center", color: "primary.main", fontWeight: "bold" }}
+      >
+        Update Profile
+      </Typography>
+      <Box
         sx={{
-          height: "100vh",
-          justifyContent: "center",
-          alignItems: "center",
+          width: "100%",
+          boxShadow: 1,
+          borderRadius: 1,
+          p: 4,
+          textAlign: "center",
         }}
       >
-        <Box
-          sx={{
-            width: "100%",
-            boxShadow: 1,
-            borderRadius: 1,
-            p: 4,
-            textAlign: "center",
-          }}
+        <ModifiedForm
+          onSubmit={handleUpdateProfile}
+          resolver={zodResolver(profileValidationSchema)}
+          defaultValues={defaultValues}
         >
-          <Typography
-            variant="h4"
-            component="h1"
-            sx={{ mb: 4, textAlign: "center", color: "#333", fontWeight: "bold" }}
-          >
-            Update Profile
-          </Typography>
-          <ModifiedForm
-            onSubmit={handleUpdateProfile}
-            resolver={zodResolver(profileValidationSchema)}
-            defaultValues={defaultValues}
+          <Grid
+            container
+            spacing={2}
+            my={1}
+            justifyContent="cebter"
+            alignItems="center"
           >
             <Grid
-              container
-              spacing={2}
-              my={1}
-              justifyContent="cebter"
-              alignItems="center"
+              item
+              xs={6}
             >
-              <Grid
-                item
-                xs={6}
-              >
-                <ModifiedInput
-                  name="userName"
-                  label="User Name"
-                  type="text"
-                  fullWidth
-                />
-              </Grid>
-              <Grid
-                item
-                xs={6}
-              >
-                <ModifiedInput
-                  name="name"
-                  label="Name"
-                  type="text"
-                  fullWidth
-                />
-              </Grid>
-              <Grid
-                item
-                xs={6}
-              >
-                <ModifiedInput
-                  name="email"
-                  label="Email"
-                  type="email"
-                  fullWidth
-                />
-              </Grid>
-              <Grid
-                item
-                xs={6}
-              >
-                <ModifiedInput
-                  name="mobileNo"
-                  label="Mobile No"
-                  type="text"
-                  fullWidth
-                />
-              </Grid>
-              <Grid
-                item
-                xs={6}
-              >
-                <ModifiedInput
-                  name="address"
-                  label="Address"
-                  type="text"
-                  fullWidth
-                />
-              </Grid>
-              <Grid
-                item
-                xs={6}
-              >
-                <ModifiedFileUploader
-                  fullWidth
-                  name="image"
-                  label="Profile Picture"
-                  type="file"
-                />
-              </Grid>
-              <Grid
-                item
-                xs={6}
-              >
-                <Button
-                  fullWidth
-                  sx={{
-                    margin: "10px 0",
-                  }}
-                  type="submit"
-                >
-                  Update Profile
-                </Button>
-              </Grid>
+              <ModifiedInput
+                name="userName"
+                label="User Name"
+                type="text"
+                fullWidth
+              />
             </Grid>
-          </ModifiedForm>
-        </Box>
-      </Stack>
+            <Grid
+              item
+              xs={6}
+            >
+              <ModifiedInput
+                name="name"
+                label="Name"
+                type="text"
+                fullWidth
+              />
+            </Grid>
+            <Grid
+              item
+              xs={6}
+            >
+              <ModifiedInput
+                name="email"
+                label="Email"
+                type="email"
+                fullWidth
+              />
+            </Grid>
+            <Grid
+              item
+              xs={6}
+            >
+              <ModifiedInput
+                name="mobileNo"
+                label="Mobile No"
+                type="text"
+                fullWidth
+              />
+            </Grid>
+            <Grid
+              item
+              xs={6}
+            >
+              <ModifiedInput
+                name="address"
+                label="Address"
+                type="text"
+                fullWidth
+              />
+            </Grid>
+            <Grid
+              item
+              xs={6}
+            >
+              <ModifiedFileUploader
+                fullWidth
+                name="image"
+                label="Profile Picture"
+                type="file"
+              />
+            </Grid>
+            <Grid
+              item
+              xs={6}
+            >
+              <Button
+                fullWidth
+                sx={{
+                  margin: "10px 0",
+                }}
+                type="submit"
+              >
+                Update Profile
+              </Button>
+            </Grid>
+          </Grid>
+        </ModifiedForm>
+      </Box>
     </Container>
   );
 };

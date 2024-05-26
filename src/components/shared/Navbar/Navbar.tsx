@@ -35,7 +35,7 @@ function Navbar() {
     },
     {
       name: "Profile",
-      path: `/dashboard/${role}/profile`,
+      path: `/dashboard/profile`,
     },
   ];
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
