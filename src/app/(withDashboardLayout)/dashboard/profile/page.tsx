@@ -9,8 +9,9 @@ import ModifiedForm from "@/components/Forms/ModifiedForm";
 import ModifiedInput from "@/components/Forms/ModifiedInput";
 import ModifiedFileUploader from "@/components/Forms/ModifiedFileUploader";
 import { uploadImageToImgBB } from "@/services/actions/imageUploadActions";
-import { useGetMyProfileQuery, useUpdateProfileMutation } from "@/redux/api/userApi";
+import { useGetMyProfileQuery } from "@/redux/api/userApi";
 import { getUserInfo } from "@/services/auth.services";
+import { updateUserProfile } from "@/services/actions/updateUserProfile";
 
 const profileValidationSchema = z.object({
   userName: z.string().min(4, "User Name must be at least 4 characters"),
@@ -22,7 +23,6 @@ const profileValidationSchema = z.object({
 });
 
 const ProfilePage = () => {
-  const [updateProfile] = useUpdateProfileMutation();
   const { data: myProfileData, isLoading: isMyProfileLoading } = useGetMyProfileQuery(undefined);
   const { role } = getUserInfo();
 
@@ -42,7 +42,6 @@ const ProfilePage = () => {
     email: myProfileData?.email,
     mobileNo: myProfileData?.[role]?.mobileNo,
     address: myProfileData?.[role]?.address,
-    // image: myProfileData?.[role]?.image,
   };
 
   const handleUpdateProfile: SubmitHandler<FieldValues> = async (values) => {
@@ -57,15 +56,17 @@ const ProfilePage = () => {
         image: imageUrl,
       };
 
-      const res = await updateProfile(userData);
+      const res = await updateUserProfile(userData);
 
-      if (res?.data?.id) {
+      if (res?.id) {
         toast.success("Profile updated successfully");
-        // router.push("/");
+        router.refresh();
       } else {
         toast.error("Failed to update profile");
       }
     } catch (error: any) {
+      console.log(error);
+
       console.error(error.message);
     }
   };

@@ -47,7 +47,7 @@ const SingleFlatPage = () => {
               sx={{ display: "flex", justifyContent: "center", width: "100%", maxHeight: "20rem", overflow: "hidden" }}
             >
               <Image
-                src={assets.images.flat1}
+                src={flatData?.images?.[0] || assets.images.flat1}
                 alt="Flat"
                 width={800}
                 height={400}

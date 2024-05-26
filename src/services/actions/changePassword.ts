@@ -4,8 +4,6 @@ export const changePassword = async (data: { oldPassword: string; newPassword: s
   try {
     const response = await axiosInstance.post(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/auth/change-password`, data);
 
-    console.log(response);
-
     return response.data;
   } catch (error: any) {
     return error;

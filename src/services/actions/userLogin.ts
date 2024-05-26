@@ -11,6 +11,7 @@ export const userLogin = async (data: FieldValues) => {
   });
 
   const userInfo = await res.json();
+
   if (userInfo?.data?.accessToken) {
     setAccessToken(userInfo?.data?.accessToken);
   }

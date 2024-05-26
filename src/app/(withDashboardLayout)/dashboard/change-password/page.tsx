@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Box, Button, Container, Grid, Stack, Typography } from "@mui/material";
 import { z } from "zod";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import AdbIcon from "@mui/icons-material/Adb";
 import { FieldValues } from "react-hook-form";
 import { changePassword } from "@/services/actions/changePassword";
@@ -36,7 +36,7 @@ const ChangePasswordPage = () => {
 
       if (res?.success) {
         toast.success("Password changed successfully");
-        localStorage.removeItem(authKey);
+        logoutUser(router, { redirect: "/login" });
 
         router.push("/login");
       } else {
