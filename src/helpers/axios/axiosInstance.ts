@@ -12,13 +12,16 @@ instance.interceptors.request.use(
   function (config) {
     // Do something before request is sent
     const accessToken = getFromLocalStorage(authKey);
+
     if (accessToken) {
-      config.headers.Authorization = ` ${accessToken}`;
+      config.headers.Authorization = `${accessToken}`;
     }
+
     return config;
   },
   function (error) {
     // Do something with request error
+
     return Promise.reject(error);
   }
 );
@@ -44,6 +47,8 @@ instance.interceptors.response.use(
       message: error?.response?.data?.message,
       errorDetails: error?.response?.data?.errorDetails,
     };
+
+    return Promise.reject(responseObject);
   }
 );
 
