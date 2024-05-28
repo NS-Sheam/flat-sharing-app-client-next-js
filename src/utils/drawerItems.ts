@@ -35,6 +35,11 @@ export const drawerItems = (role: TUserRole): TDrawerItem[] => {
           title: "Manage Flats",
           path: `${role}/manage-flats`,
           icon: GroupIcon,
+        },
+        {
+          title: "Flat Requests",
+          path: `${role}/flat-requests`,
+          icon: GroupIcon,
         }
       );
       break;

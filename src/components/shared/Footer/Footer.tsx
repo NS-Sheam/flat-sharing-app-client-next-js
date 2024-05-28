@@ -14,10 +14,11 @@ const Footer = () => {
           direction="row"
           gap={4}
           justifyContent="center"
+          py={3}
         >
           <Typography
             component={Link}
-            href="/"
+            href="/about-us"
             color="#fff"
           >
             About
@@ -31,7 +32,7 @@ const Footer = () => {
           </Typography>
           <Typography
             component={Link}
-            href="/"
+            href="/about-us"
             color="#fff"
           >
             Contact Us
@@ -45,53 +46,88 @@ const Footer = () => {
           alignItems="center"
           py={3}
         >
-          <Typography
-            component="p"
-            color="#fff"
-          >
-            @copy; 2024 Flat Finder All Rights Reserved
-          </Typography>
           <Box
             sx={{
               display: "flex",
-              alignItems: "center",
+              flexDirection: "column",
+              alignItems: "start",
+              justifyContent: "center",
+              gap: 1,
             }}
           >
-            <Typography
-              variant="h6"
-              noWrap
-              component="a"
-              href="#app-bar-with-responsive-menu"
+            <Box
               sx={{
-                mr: 2,
-                display: { xs: "none", md: "flex" },
-                fontFamily: "monospace",
-                fontWeight: 700,
-                letterSpacing: ".3rem",
-                color: "#fff",
-                textDecoration: "none",
+                display: "flex",
+                alignItems: "center",
               }}
             >
-              <Box
+              <Typography
+                variant="h6"
+                noWrap
+                component="a"
+                href="#app-bar-with-responsive-menu"
                 sx={{
-                  backgroundColor: "secondary.main",
-                  px: 1,
-                  borderRadius: 1,
-                  color: "primary.main",
-                  display: { xs: "none", md: "flex", justifyContent: "center", alignItems: "center" },
+                  mr: 2,
+                  display: { xs: "none", md: "flex" },
+                  fontFamily: "monospace",
+                  fontWeight: 700,
+                  letterSpacing: ".3rem",
+                  color: "#fff",
+                  textDecoration: "none",
                 }}
               >
-                <AdbIcon sx={{ display: { xs: "none", md: "flex", color: "primary.main" }, mr: 1 }} />
-                FLAT
-              </Box>
-              &nbsp;FINDER
+                <Box
+                  sx={{
+                    backgroundColor: "secondary.main",
+                    px: 1,
+                    borderRadius: 1,
+                    color: "primary.main",
+                    display: { xs: "none", md: "flex", justifyContent: "center", alignItems: "center" },
+                  }}
+                >
+                  <AdbIcon sx={{ display: { xs: "none", md: "flex", color: "primary.main" }, mr: 1 }} />
+                  FLAT
+                </Box>
+                &nbsp;FINDER
+              </Typography>
+            </Box>
+            <Typography
+              component="p"
+              color="#fff"
+            >
+              Contact Information: flat-finder@gmail.com | +880 123 456 789 | Follow us on social media
             </Typography>
           </Box>
+
           <Typography
             component="p"
             color="#fff"
           >
-            Privacy Policy | Terms of Use
+            <Link
+              href="/"
+              passHref
+            >
+              <Typography
+                component="a"
+                color="#fff"
+                sx={{ textDecoration: "none" }}
+              >
+                Privacy Policy
+              </Typography>
+            </Link>
+            {" | "}
+            <Link
+              href="/"
+              passHref
+            >
+              <Typography
+                component="a"
+                color="#fff"
+                sx={{ textDecoration: "none" }}
+              >
+                Terms of Use
+              </Typography>
+            </Link>
           </Typography>
         </Stack>
       </Container>

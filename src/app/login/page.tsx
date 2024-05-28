@@ -25,14 +25,15 @@ const LoginPage = () => {
   const router = useRouter();
 
   const handleLogin = async (values: FieldValues) => {
+    const toastId = toast.loading("Logging in...");
     try {
       const res = await userLogin(values);
 
       if (res.data?.accessToken) {
-        toast.success(res?.message || "Login Successful");
+        toast.success(res?.message || "Login Successful", { id: toastId });
         router.push("/");
       } else {
-        toast.error(res?.message || "Login Failed");
+        toast.error(res?.message || "Login Failed", { id: toastId });
       }
     } catch (error: any) {
       console.error(error.message);

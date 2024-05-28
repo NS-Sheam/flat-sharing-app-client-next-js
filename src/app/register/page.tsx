@@ -46,6 +46,7 @@ const RegisterPage = () => {
   const router = useRouter();
 
   const handleRegister = async (values: FieldValues) => {
+    const toastId = toast.loading("Registering user...");
     try {
       const imageUrl = await uploadImageToImgBB(values.image);
       const userData = {
@@ -62,7 +63,7 @@ const RegisterPage = () => {
       const res = await registerUser(userData);
 
       if (res?.data?.id) {
-        toast.success(res?.message || "Register registered successfully");
+        toast.success(res?.message || "Register registered successfully", { id: toastId });
         const result = await userLogin({
           email: values.email,
           password: values.password,
@@ -74,7 +75,7 @@ const RegisterPage = () => {
           toast.error(res?.message || "Login failed");
         }
       } else {
-        console.error(res?.message || "Register failed");
+        console.error(res?.message || "Register failed", { id: toastId });
       }
     } catch (error: any) {
       console.error(error.message);

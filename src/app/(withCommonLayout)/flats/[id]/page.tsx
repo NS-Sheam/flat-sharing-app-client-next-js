@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { useRouter } from "next/navigation";
-import { Box, Typography, Grid, Card, CardMedia, CardContent, Button, CircularProgress, Alert } from "@mui/material";
+import { Box, Typography, Grid, Card, CardContent, Button, CircularProgress } from "@mui/material";
 import { useGetFlatQuery } from "@/redux/api/flatApi";
 import { useParams } from "next/navigation";
 import Image from "next/image";
@@ -11,10 +11,10 @@ import { useGetMyProfileQuery } from "@/redux/api/userApi";
 
 const SingleFlatPage = () => {
   const { data: myProfileData } = useGetMyProfileQuery(undefined);
-
   const router = useRouter();
   const { id } = useParams();
   const { data: flatData, isLoading } = useGetFlatQuery(id);
+
   if (!isLoggedIn()) {
     return router.push("/login");
   }
@@ -43,16 +43,39 @@ const SingleFlatPage = () => {
           md={8}
         >
           <Card sx={{ boxShadow: 3, borderRadius: 2 }}>
-            <Box
-              sx={{ display: "flex", justifyContent: "center", width: "100%", maxHeight: "20rem", overflow: "hidden" }}
-            >
-              <Image
-                src={flatData?.images?.[0] || assets.images.flat1}
-                alt="Flat"
-                width={800}
-                height={400}
-                style={{ objectFit: "cover", width: "100%" }}
-              />
+            <Box sx={{ p: 2 }}>
+              <Grid
+                container
+                spacing={2}
+              >
+                {flatData?.images?.map((image: string, index: number) => (
+                  <Grid
+                    item
+                    xs={12}
+                    sm={6}
+                    key={index}
+                  >
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        width: "100%",
+                        height: "100%",
+                        overflow: "hidden",
+                      }}
+                    >
+                      <Image
+                        src={image}
+                        alt={`Flat image ${index + 1}`}
+                        width={400}
+                        height={300}
+                        style={{ objectFit: "cover", width: "100%", height: "100%" }}
+                      />
+                    </Box>
+                  </Grid>
+                ))}
+              </Grid>
             </Box>
             <CardContent>
               <Typography
@@ -121,14 +144,16 @@ const SingleFlatPage = () => {
                 Edit Flat
               </Button>
             )}
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handleRequestToShare}
-              sx={{ py: 1.5, fontSize: "1rem", fontWeight: "bold" }}
-            >
-              Request to Share this Flat
-            </Button>
+            {flatData?.memberId !== myProfileData?.member?.id && myProfileData?.role !== "ADMIN" && (
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleRequestToShare}
+                sx={{ py: 1.5, fontSize: "1rem", fontWeight: "bold" }}
+              >
+                Request to Share this Flat
+              </Button>
+            )}
             <Button
               variant="outlined"
               color="primary"

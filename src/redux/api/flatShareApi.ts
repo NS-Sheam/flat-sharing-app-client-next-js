@@ -20,12 +20,6 @@ const flatShareApi = baseApi.injectEndpoints({
         method: "GET",
         params: args,
       }),
-      transformResponse: (response: TFlatRequest[], meta: IMeta) => {
-        return {
-          flatShareRequests: response,
-          meta,
-        };
-      },
       providesTags: [tagTypes.flatRequest],
     }),
     getFlatShareRequestById: build.query({

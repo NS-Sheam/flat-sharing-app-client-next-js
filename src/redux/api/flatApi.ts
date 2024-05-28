@@ -1,6 +1,7 @@
 import { tagTypes } from "../tag-types";
-import { baseApi } from "./baseApi";
+
 import { IMeta, TFlat } from "@/types";
+import { baseApi } from "./baseApi";
 
 const flatApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
@@ -18,17 +19,11 @@ const flatApi = baseApi.injectEndpoints({
         method: "GET",
         params: args,
       }),
-      transformResponse: (response: TFlat[], meta: IMeta) => {
-        return {
-          flats: response,
-          meta,
-        };
-      },
       providesTags: [tagTypes.flat],
     }),
     deleteFlat: build.mutation({
       query: (id) => ({
-        url: `/flat/${id}`,
+        url: `/flats/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: [tagTypes.flat],

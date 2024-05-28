@@ -1,17 +1,38 @@
 "use client";
 
 import React from "react";
-import { Box, Container, Typography, CircularProgress, Button, Chip } from "@mui/material";
-
+import {
+  Box,
+  Container,
+  Typography,
+  CircularProgress,
+  Button,
+  Chip,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+} from "@mui/material";
 import { useGetAllUsersQuery, useUpdateUserStatusMutation } from "@/redux/api/userApi";
-// import { updateUserProfile } from "@/services/actions/updateUserProfile";
-import { useRouter } from "next/navigation";
+import { useGetMyProfileQuery } from "@/redux/api/userApi";
 import { toast } from "sonner";
 
-const UserManagement = () => {
-  const router = useRouter();
+const UserManagementPage = () => {
+  const { data: myProfile } = useGetMyProfileQuery(undefined);
+  const currentUserId = myProfile?.id;
+
   const [updateUserStatus] = useUpdateUserStatusMutation();
-  const { data: users, isLoading, isFetching } = useGetAllUsersQuery(undefined);
+  const {
+    data: users,
+    isLoading,
+    isFetching,
+  } = useGetAllUsersQuery({
+    page: 1,
+    limit: 1000,
+  });
 
   if (isLoading || isFetching) {
     return (
@@ -29,40 +50,70 @@ const UserManagement = () => {
   };
 
   return (
-    <Container>
+    <Container
+      sx={{
+        my: 4,
+      }}
+    >
       <Typography
         variant="h4"
         sx={{ mb: 4, textAlign: "center", color: "primary.main", fontWeight: "bold" }}
       >
         User Management
       </Typography>
-      {users?.map((user: any) => (
-        <Box
-          key={user.id}
-          sx={{ mb: 2, p: 2, border: "1px solid", borderRadius: 1 }}
-        >
-          <Typography variant="h6">{user.userName}</Typography>
-          <Typography variant="body2">{user.email}</Typography>
-          <Chip
-            label={user.role}
-            color="primary"
-          />
-          <Chip
-            label={user.isActive ? "Active" : "Inactive"}
-            color={user.isActive ? "success" : "error"}
-          />
-          <Button
-            variant="contained"
-            color={user.isActive ? "error" : "success"}
-            sx={{ ml: 2 }}
-            onClick={() => handleActivateDeactivate(user.id, user.isActive)}
-          >
-            {user.isActive ? "Deactivate" : "Activate"}
-          </Button>
-        </Box>
-      ))}
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Name</TableCell>
+              <TableCell>Email</TableCell>
+              <TableCell>Role</TableCell>
+              <TableCell>Status</TableCell>
+              <TableCell>Action</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {users?.map((user: any) => (
+              <TableRow key={user.id}>
+                <TableCell>{user?.[user.role.toLowerCase()]?.name}</TableCell>
+                <TableCell>{user.email}</TableCell>
+                <TableCell>
+                  <Chip
+                    label={user.role}
+                    color="primary"
+                  />
+                </TableCell>
+                <TableCell>
+                  <Chip
+                    label={user.isActive ? "Active" : "Inactive"}
+                    color={user.isActive ? "success" : "error"}
+                  />
+                </TableCell>
+                <TableCell>
+                  {
+                    <Button
+                      variant="contained"
+                      size="small"
+                      sx={{
+                        width: 100,
+                        height: 30,
+                        fontSize: 12,
+                      }}
+                      disabled={currentUserId === user.id}
+                      color={user.isActive ? "error" : "success"}
+                      onClick={() => handleActivateDeactivate(user.id, user.isActive)}
+                    >
+                      {user.isActive ? "Deactivate" : "Activate"}
+                    </Button>
+                  }
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </Container>
   );
 };
 
-export default UserManagement;
+export default UserManagementPage;

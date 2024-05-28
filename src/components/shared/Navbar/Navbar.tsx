@@ -9,19 +9,19 @@ import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import Link from "next/link";
 import { useGetMyProfileQuery } from "@/redux/api/userApi";
 import { USER_ROLE } from "@/constants/role";
-import { getUserInfo } from "@/services/auth.services";
+import { useRouter } from "next/navigation";
+import { AccountCircle } from "@mui/icons-material";
 
 function Navbar() {
   const { data: myProfile, isLoading: isMyProfileLoading } = useGetMyProfileQuery(undefined);
-  const pages = ["Home", "About"];
-  const { role } = getUserInfo();
+
+  const router = useRouter();
   const settings = [
     {
       name: "Dashboard",
@@ -37,7 +37,17 @@ function Navbar() {
       name: "Profile",
       path: `/dashboard/profile`,
     },
+    {
+      path: "/about-us",
+      name: "About Us",
+    },
   ];
+  if (!myProfile) {
+    settings.push({
+      path: "/login",
+      name: "Login",
+    });
+  }
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
@@ -59,6 +69,10 @@ function Navbar() {
   if (isMyProfileLoading) {
     return <div>Loading...</div>;
   }
+  const handleLogout = () => {
+    localStorage.removeItem("accessToken");
+    router.refresh();
+  };
 
   return (
     <AppBar
@@ -130,13 +144,18 @@ function Navbar() {
                 display: { xs: "block", md: "none" },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem
-                  key={page}
-                  onClick={handleCloseNavMenu}
+              {[
+                { name: "Home", path: "/" },
+                { name: "About Us", path: "/about-us" },
+              ].map((page) => (
+                <Link
+                  href={page.path}
+                  key={page.name}
                 >
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
+                  <MenuItem onClick={handleCloseNavMenu}>
+                    <Typography textAlign="center">{page.name}</Typography>
+                  </MenuItem>
+                </Link>
               ))}
             </Menu>
           </Box>
@@ -159,30 +178,8 @@ function Navbar() {
           >
             Flat Finder
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
-              <Link
-                href={`/`}
-                key={page}
-              >
-                <Button
-                  key={page}
-                  onClick={handleCloseNavMenu}
-                  sx={{
-                    my: 2,
-                    mx: 1,
-                    color: "inherit",
-                    "&:hover": {
-                      backgroundColor: "secondary.main",
-                      color: "primary.main",
-                    },
-                  }}
-                >
-                  {page}
-                </Button>
-              </Link>
-            ))}
-          </Box>
+
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}></Box>
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
@@ -190,16 +187,14 @@ function Navbar() {
                 onClick={handleOpenUserMenu}
                 sx={{ p: 0 }}
               >
-                <Avatar
-                  alt="Remy Sharp"
-                  src={
-                    role === USER_ROLE.MEMBER
-                      ? myProfile?.member?.image || "/static/images/avatar/2.jpg"
-                      : role === USER_ROLE.ADMIN
-                      ? myProfile?.admin?.image || "/static/images/avatar/2.jpg"
-                      : ""
-                  }
-                />
+                {myProfile?.profilePicture ? (
+                  <Avatar
+                    alt={myProfile?.id}
+                    src={myProfile?.[myProfile?.role.toLowerCase()].image}
+                  />
+                ) : (
+                  <AccountCircle sx={{ color: "white", height: 40, width: 40 }} />
+                )}
               </IconButton>
             </Tooltip>
             <Menu
@@ -219,15 +214,25 @@ function Navbar() {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem
+                <Link
+                  href={setting.path}
                   key={setting.name}
-                  onClick={handleCloseUserMenu}
                 >
-                  <Link href={setting.path}>
+                  <MenuItem onClick={handleCloseUserMenu}>
                     <Typography textAlign="center">{setting.name}</Typography>
-                  </Link>
-                </MenuItem>
+                  </MenuItem>
+                </Link>
               ))}
+              {myProfile?.id && (
+                <MenuItem>
+                  <Box
+                    onClick={handleLogout}
+                    textAlign="center"
+                  >
+                    <Typography>Logout</Typography>
+                  </Box>
+                </MenuItem>
+              )}
             </Menu>
           </Box>
         </Toolbar>

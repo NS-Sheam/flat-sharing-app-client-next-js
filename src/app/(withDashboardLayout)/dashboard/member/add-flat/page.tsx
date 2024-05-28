@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { Box, Button, Container, Grid, Stack, Typography } from "@mui/material";
+import { Box, Button, Container, Grid, Typography } from "@mui/material";
 import { zodResolver } from "@hookform/resolvers/zod";
 import ModifiedForm from "@/components/Forms/ModifiedForm";
 import ModifiedInput from "@/components/Forms/ModifiedInput";
@@ -28,6 +28,7 @@ const AddFlatPage = () => {
 
   const handleAddFlat: SubmitHandler<FieldValues> = async (values) => {
     try {
+      const toastId = toast.loading("Adding flat...");
       const imageUrls = await Promise.all(values.images.map((file: File) => uploadImageToImgBB(file)));
 
       const flatData = {
@@ -42,10 +43,10 @@ const AddFlatPage = () => {
       const res = await addFlat(flatData);
 
       if (res?.data?.id) {
-        toast.success("Flat added successfully");
+        toast.success("Flat added successfully", { id: toastId });
         router.push("/flats");
       } else {
-        toast.error("Failed to add flat");
+        toast.error("Failed to add flat", { id: toastId });
       }
     } catch (error: any) {
       console.error(error.message);

@@ -41,20 +41,29 @@ const MyFlats = () => {
         container
         spacing={2}
       >
-        {fData?.map((flat: TFlat) => (
-          <Grid
-            item
-            xs={12}
-            sm={6}
-            md={4}
-            key={flat.id}
-            sx={{
-              overflow: "hidden",
-            }}
+        {fData?.length ? (
+          fData?.map((flat: TFlat) => (
+            <Grid
+              item
+              xs={12}
+              sm={6}
+              md={4}
+              key={flat.id}
+              sx={{
+                overflow: "hidden",
+              }}
+            >
+              <FlatCard flat={flat} />
+            </Grid>
+          ))
+        ) : (
+          <Typography
+            variant="h6"
+            sx={{ textAlign: "center", color: "primary.main" }}
           >
-            <FlatCard flat={flat} />
-          </Grid>
-        ))}
+            No flats found
+          </Typography>
+        )}
       </Grid>
     </Container>
   );

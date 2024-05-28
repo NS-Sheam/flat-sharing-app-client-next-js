@@ -5,15 +5,20 @@ import { isLoggedIn } from "@/services/auth.services";
 import { useGetAllFlatsQuery } from "@/redux/api/flatApi";
 import { useRouter } from "next/navigation";
 import FlatCard from "@/components/UI/FlatCard";
+import { TFlat } from "@/types";
+
 const AllFlatPage = () => {
-  const searchParams = new URLSearchParams(location.search);
+  const searchParams = new URLSearchParams(typeof window !== "undefined" ? window.location.search : "");
   const searchTerm = searchParams.get("searchTerm") || "";
   const rent = searchParams.get("rent") || "";
   const bedrooms = searchParams.get("bedrooms") || "";
+
   const params = {
     searchTerm,
     rent,
     bedrooms,
+    page: 1,
+    limit: 1000,
   };
 
   const { data: fData, isLoading } = useGetAllFlatsQuery(params);
@@ -38,17 +43,16 @@ const AllFlatPage = () => {
       }}
     >
       <Typography
-        variant="h3"
-        component="h2"
-        sx={{ mb: 4, textAlign: "center", color: "primary.main" }}
+        variant="h4"
+        sx={{ mb: 4, textAlign: "center", color: "primary.main", fontWeight: "bold" }}
       >
-        All Flat
+        All Flats
       </Typography>
       <Grid
         container
         spacing={2}
       >
-        {fData?.flats.map((flat) => (
+        {fData?.map((flat: TFlat) => (
           <Grid
             item
             xs={12}

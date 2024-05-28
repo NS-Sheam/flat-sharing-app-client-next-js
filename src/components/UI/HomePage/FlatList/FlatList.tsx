@@ -7,9 +7,11 @@ import { useRouter } from "next/navigation";
 
 import Link from "next/link";
 import FlatCard from "../../FlatCard";
+import { TFlat } from "@/types";
 
 const FlatList = () => {
-  const { data, error, isLoading } = useGetAllFlatsQuery({});
+  const { data: flats, error, isLoading } = useGetAllFlatsQuery({});
+
   const router = useRouter();
 
   if (isLoading) {
@@ -31,7 +33,7 @@ const FlatList = () => {
     );
   }
 
-  const flatsToShow = data?.flats.slice(0, 3);
+  const flatsToShow = flats?.slice(0, 3);
 
   return (
     <Box
@@ -51,7 +53,7 @@ const FlatList = () => {
         container
         spacing={4}
       >
-        {flatsToShow?.map((flat) => (
+        {flatsToShow?.map((flat: TFlat) => (
           <Grid
             item
             xs={12}
