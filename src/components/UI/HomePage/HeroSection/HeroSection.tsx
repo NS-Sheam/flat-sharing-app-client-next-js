@@ -1,6 +1,7 @@
 import { Box, Button, Container, Typography } from "@mui/material";
 import Image from "next/image";
 import assets from "@/assets";
+import Link from "next/link";
 
 const HeroSection = () => {
   return (
@@ -58,7 +59,9 @@ const HeroSection = () => {
             justifyContent: { xs: "center", md: "flex-start" },
           }}
         >
-          <Button>Search Flats</Button>
+          <Link href="/flats">
+            <Button>Search Flats</Button>
+          </Link>
         </Box>
       </Box>
       <Box

@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import { useGetMyProfileQuery } from "@/redux/api/userApi";
 import { TFlatRequest } from "@/types";
+import Link from "next/link";
 
 const MyFlatRequestsPage = () => {
   const { data: myProfile, isLoading, isFetching } = useGetMyProfileQuery(undefined);
@@ -64,14 +65,15 @@ const MyFlatRequestsPage = () => {
                 </Typography>
               </CardContent>
               <CardActions>
-                <Button
-                  size="small"
-                  color="primary"
-                  variant="outlined"
-                  onClick={() => alert(`Flat details for ${request?.flat?.location}`)}
-                >
-                  View Flat Details
-                </Button>
+                <Link href={`/flats/${request?.flatId}`}>
+                  <Button
+                    size="small"
+                    color="primary"
+                    variant="outlined"
+                  >
+                    View Flat Details
+                  </Button>
+                </Link>
               </CardActions>
             </Card>
           ))

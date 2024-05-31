@@ -24,20 +24,6 @@ function Navbar() {
   const router = useRouter();
   const settings = [
     {
-      name: "Dashboard",
-      path: `/dashboard/${
-        myProfile?.role.toLowerCase() === USER_ROLE.MEMBER
-          ? "member/my-flats"
-          : myProfile?.role.toLowerCase() === USER_ROLE.ADMIN
-          ? "admin/manage-users"
-          : ""
-      }`,
-    },
-    {
-      name: "Profile",
-      path: `/dashboard/profile`,
-    },
-    {
       path: "/about-us",
       name: "About Us",
     },
@@ -47,6 +33,24 @@ function Navbar() {
       path: "/login",
       name: "Login",
     });
+  }
+  if (myProfile) {
+    settings.unshift(
+      {
+        name: "Dashboard",
+        path: `/dashboard/${
+          myProfile?.role.toLowerCase() === USER_ROLE.MEMBER
+            ? "member/my-flats"
+            : myProfile?.role.toLowerCase() === USER_ROLE.ADMIN
+            ? "admin/manage-users"
+            : ""
+        }`,
+      },
+      {
+        name: "Profile",
+        path: `/dashboard/profile`,
+      }
+    );
   }
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
@@ -66,11 +70,9 @@ function Navbar() {
     setAnchorElUser(null);
   };
 
-  if (isMyProfileLoading) {
-    return <div>Loading...</div>;
-  }
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
+    router.push("/");
     router.refresh();
   };
 
@@ -88,8 +90,8 @@ function Navbar() {
           <Typography
             variant="h6"
             noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
+            component={Link}
+            href="/"
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },

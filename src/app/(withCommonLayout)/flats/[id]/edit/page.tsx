@@ -13,14 +13,14 @@ import ModifiedMultipleFileUploader from "@/components/Forms/ModifiedMultipleFil
 import { uploadImageToImgBB } from "@/services/actions/imageUploadActions";
 import { useGetFlatQuery, useUpdateFlatMutation } from "@/redux/api/flatApi";
 
-const editFlatValidationSchema = z.object({
-  location: z.string().min(1, "Location is required"),
-  description: z.string().min(10, "Description must be at least 10 characters"),
-  rent: z.string().min(1, "Rent is required"),
-  bedrooms: z.string().min(1, "Number of bedrooms is required"),
-  amenities: z.array(z.string()).min(1, "At least one amenity is required"),
-  images: z.array(z.instanceof(File)).min(1, "At least one image is required"),
-});
+// const editFlatValidationSchema = z.object({
+//   location: z.string().min(1, "Location is required"),
+//   description: z.string().min(10, "Description must be at least 10 characters"),
+//   rent: z.string().min(1, "Rent is required"),
+//   bedrooms: z.string().min(1, "Number of bedrooms is required"),
+//   amenities: z.array(z.string()).min(1, "At least one amenity is required"),
+//   images: z.array(z.instanceof(File)).min(1, "At least one image is required"),
+// });
 
 const EditFlatPage = () => {
   const router = useRouter();
@@ -29,6 +29,7 @@ const EditFlatPage = () => {
   const [updateFlat] = useUpdateFlatMutation();
 
   const handleEditFlat: SubmitHandler<FieldValues> = async (values) => {
+    const toastId = toast.loading("Updating flat...");
     try {
       const imageUrls = await Promise.all(values.images.map((file: File) => uploadImageToImgBB(file)));
 
@@ -47,10 +48,10 @@ const EditFlatPage = () => {
       const res = await updateFlat(flatData);
 
       if (res?.data?.id) {
-        toast.success("Flat updated successfully");
+        toast.success("Flat updated successfully", { id: toastId });
         router.push("/flats");
       } else {
-        toast.error("Failed to update flat");
+        toast.error("Failed to update flat", { id: toastId });
       }
     } catch (error: any) {
       console.error(error.message);
@@ -83,7 +84,6 @@ const EditFlatPage = () => {
           </Typography>
           <ModifiedForm
             onSubmit={handleEditFlat}
-            resolver={zodResolver(editFlatValidationSchema)}
             defaultValues={{
               location: flat?.location,
               description: flat?.description,
