@@ -1,5 +1,9 @@
 # Flat Sharing Application
 
+## Live Site
+
+You can visit the live site [here](https://flat-sharing-application-client.vercel.app/).
+
 ## Description
 
 A web application to facilitate flat sharing, allowing users to post, search, and request to share flats.
