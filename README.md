@@ -85,3 +85,10 @@ A web application to facilitate flat sharing, allowing users to post, search, an
 - Tailwind CSS
 - Sonner
 - TypeScript
+
+
+# Login Credintials
+
+- **Admin**: email- admin@gmail.com | password: 123456
+
+- **Member**: email- member@gmail.com | password: 123456
