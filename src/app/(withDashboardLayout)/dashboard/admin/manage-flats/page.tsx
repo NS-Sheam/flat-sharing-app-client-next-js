@@ -48,11 +48,12 @@ const FlatManagementPage = () => {
 
   const handleDeleteFlat = async (flatId: string) => {
     const res = await deleteFlat(flatId);
+    console.log(res);
 
-    if (res?.data) {
+    if (!res?.error) {
       toast.success("Flat deleted successfully");
     } else {
-      toast.error("Failed to delete flat");
+      toast.error((res?.error as any)?.data || "Failed to delete flat");
     }
   };
 

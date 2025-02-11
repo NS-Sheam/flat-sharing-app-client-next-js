@@ -62,7 +62,7 @@ const ProfilePage = () => {
         toast.success("Profile updated successfully");
         router.refresh();
       } else {
-        toast.error("Failed to update profile");
+        toast.error(res?.message || "Failed to update profile");
       }
     } catch (error: any) {
       console.log(error);

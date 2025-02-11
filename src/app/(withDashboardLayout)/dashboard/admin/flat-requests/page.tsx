@@ -39,10 +39,10 @@ const FlatShareRequestPage = () => {
 
   const handleUpdateStatus = async (requestId: string, status: string) => {
     const res = await updateRequestStatus({ id: requestId, body: { status } });
-    if (res?.data) {
+    if (!res?.error) {
       toast.success("Request status updated successfully");
     } else {
-      toast.error("Failed to update request status");
+      toast.error((res?.error as any)?.data || "Failed to update request status");
     }
   };
 

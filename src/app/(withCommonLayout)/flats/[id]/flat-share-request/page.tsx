@@ -57,7 +57,7 @@ const FlatShareRequest = () => {
       if (res?.data?.id) {
         toast.success("Flat share request sent successfully");
       } else {
-        toast.error("Failed to send flat share request");
+        toast.error((res?.error as any)?.data || "Failed to send flat share request");
       }
     } catch (error: any) {
       console.error(error.message);

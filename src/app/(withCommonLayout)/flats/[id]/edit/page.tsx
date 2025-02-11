@@ -51,7 +51,7 @@ const EditFlatPage = () => {
         toast.success("Flat updated successfully", { id: toastId });
         router.push("/flats");
       } else {
-        toast.error("Failed to update flat", { id: toastId });
+        toast.error((res?.error as any)?.data || "Failed to update flat", { id: toastId });
       }
     } catch (error: any) {
       console.error(error.message);

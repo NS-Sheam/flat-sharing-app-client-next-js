@@ -21,6 +21,17 @@ const loginValidationSchema = z.object({
   password: z.string().min(6, "Password must be at least 6 characters"),
 });
 
+const loginCredintials: { [key: string]: { email: string; password: string } } = {
+  admin: {
+    email: "admin@gmail.com",
+    password: "123456",
+  },
+  member: {
+    email: "member@gmail.com",
+    password: "123456",
+  },
+};
+
 const LoginPage = () => {
   const router = useRouter();
 
@@ -149,6 +160,19 @@ const LoginPage = () => {
               >
                 Login
               </Button>
+              {Object.keys(loginCredintials).map((key) => (
+                <Button
+                  key={key}
+                  fullWidth
+                  sx={{
+                    margin: "10px 0",
+                  }}
+                  type="button"
+                  onClick={() => handleLogin(loginCredintials[key])}
+                >
+                  Login as {key}
+                </Button>
+              ))}
               <Typography
                 component="p"
                 fontWeight="300"

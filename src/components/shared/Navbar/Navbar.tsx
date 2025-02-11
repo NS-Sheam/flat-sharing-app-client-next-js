@@ -72,8 +72,11 @@ function Navbar() {
 
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
+
     router.push("/");
-    router.refresh();
+    setTimeout(() => {
+      window.location.reload();
+    }, 100);
   };
 
   return (
